@@ -1,0 +1,8 @@
+<html>
+<form method="post" action="/posts">
+<input type="text" name="title" size=32 /><br />
+<textarea name="content" rows=32 cols=80></textarea><br />
+<input type="submit" value="Post" /><br />
+</form>
+
+</html>

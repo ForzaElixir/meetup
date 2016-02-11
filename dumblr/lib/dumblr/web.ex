@@ -16,6 +16,11 @@ defmodule Dumblr.Web do
     send_resp(conn, 200, content)
   end
 
+  get "/posts/new" do
+    content = render("new.html.eex")
+    send_resp(conn, 200, content)
+  end
+
   get "/posts/:id" do
     # TODO: get from database
     post = %{title: "Brand new bag", content: "Papa's got a brand new bag"}
@@ -30,8 +35,11 @@ defmodule Dumblr.Web do
     |> send_resp(302, "")
   end
 
+  match _ do
+    send_resp(conn, 404, "not found")
+  end
 
-  defp render(path, bindings)  do
+  defp render(path, bindings \\ [])  do
     full_path = Application.app_dir(:dumblr, "priv/web/" <> path)
     content = EEx.eval_file(full_path, bindings)
   end
