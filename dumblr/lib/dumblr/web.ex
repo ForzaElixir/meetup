@@ -6,7 +6,9 @@ defmodule Dumblr.Web do
   plug :dispatch
 
   get "/" do
-    send_resp(conn, 200, "hello")
+    template = File.read!(Application.app_dir(:dumblr, "priv/web/index.html.eex"))
+    content = EEx.eval_string(template, [title: "Dumblr Blog"])
+    send_resp(conn, 200, content)
   end
 
   def start do

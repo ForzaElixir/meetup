@@ -1,0 +1,9 @@
+<html>
+
+hello, world.
+
+<div>
+<%= title %>
+</div>
+
+</html>
