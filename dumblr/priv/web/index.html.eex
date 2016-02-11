@@ -1,9 +1,16 @@
 <html>
 
-hello, world.
+<h2>
+<%= blog_title %>
+</h2>
 
 <div>
-<%= title %>
+  <%= for post <- posts do %>
+  <div>
+    <b><%= post.title %></b>
+    <p><%= post.content %></p>
+  </div>
+  <% end %>
 </div>
 
 </html>
