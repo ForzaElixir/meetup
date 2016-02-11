@@ -1,0 +1,6 @@
+<html>
+  <div>
+    <b><%= post.user %></b> wrote <b><%= post.title %></b>
+    <p><%= post.content %></p>
+  </div>
+</html>
