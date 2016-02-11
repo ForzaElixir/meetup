@@ -4,5 +4,4 @@
 <textarea name="content" rows=32 cols=80></textarea><br />
 <input type="submit" value="Post" /><br />
 </form>
-
 </html>

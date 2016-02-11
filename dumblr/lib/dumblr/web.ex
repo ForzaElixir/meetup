@@ -9,15 +9,17 @@ defmodule Dumblr.Web do
   get "/" do
     # TODO: replace posts with actual content from database.
     posts = [
-      %{title: "Good news", content: "I have good news."},
-      %{title: "Bad news", content: "I have some bad news."},
+      %{title: "Good news", content: "I have good news.", user: "bob"},
+      %{title: "Bad news", content: "I have some bad news.", user: "billy"},
     ]
     content = render("index.html.eex", posts: posts)
     send_resp(conn, 200, content)
   end
 
   get "/posts/new" do
-    content = render("new.html.eex")
+    conn = fetch_cookies(conn)
+    user = conn.req_cookies["user"]
+    content = render("new.html.eex", user: user)
     send_resp(conn, 200, content)
   end
 
@@ -30,6 +32,17 @@ defmodule Dumblr.Web do
 
   post "/posts" do
     # TODO: Save post using Ecto
+
+    unless version == "v1" do
+      conn = fetch_cookies(conn)
+      user = conn.req_cookies["user"]
+      conn = if user do
+        conn
+      else
+        put_resp_cookie(conn, "user", conn.params["user"])
+      end
+    end
+
     conn
     |> put_resp_header("Location", "/posts/1")
     |> send_resp(302, "")
@@ -40,12 +53,15 @@ defmodule Dumblr.Web do
   end
 
   defp render(path, bindings \\ [])  do
-    full_path = Application.app_dir(:dumblr, "priv/web/" <> path)
+    full_path = Application.app_dir(:dumblr, "priv/web/" <> version <> "/" <> path)
     content = EEx.eval_file(full_path, bindings)
   end
 
+  defp version() do
+    Application.get_env(:dumblr, :template_version)
+  end
 
-  def start do
+  def start() do
     Logger.info("Dumblr starting on port 8000")
     Plug.Adapters.Cowboy.http __MODULE__, [], port: 8000
   end

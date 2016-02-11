@@ -4,11 +4,17 @@
 Dumblr Blog
 </h2>
 
+<span>
+  <a href="/posts/new">Write new post</a>
+</span>
+<br /><br /><br />
+
 <div>
   <%= for post <- posts do %>
   <div>
     <b><%= post.title %></b>
     <p><%= post.content %></p>
+    <br />
   </div>
   <% end %>
 </div>

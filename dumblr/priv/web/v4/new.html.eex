@@ -1,0 +1,13 @@
+<html>
+<form method="post" action="/posts">
+<%= if user do %>
+user: <%= user %><br />
+<%= else %>
+  user: <input type="text" name="user" size=16 /><br />
+<% end %>
+
+title: <input type="text" name="title" size=32 /><br />
+<textarea name="content" rows=32 cols=80></textarea><br />
+<input type="submit" value="Post" /><br />
+</form>
+</html>
