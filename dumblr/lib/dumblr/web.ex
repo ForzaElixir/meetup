@@ -3,15 +3,31 @@ defmodule Dumblr.Web do
   require Logger
 
   plug :match
+  plug Plug.Parsers, parsers: [:urlencoded]
   plug :dispatch
 
   get "/" do
+    # TODO: replace posts with actual content from database.
     posts = [
       %{title: "Good news", content: "I have good news."},
       %{title: "Bad news", content: "I have some bad news."},
     ]
-    content = render("index.html.eex", blog_title: "Dumblr Blog", posts: posts)
+    content = render("index.html.eex", posts: posts)
     send_resp(conn, 200, content)
+  end
+
+  get "/posts/:id" do
+    # TODO: get from database
+    post = %{title: "Brand new bag", content: "Papa's got a brand new bag"}
+    content = render("post.html.eex", post: post)
+    send_resp(conn, 200, content)
+  end
+
+  post "/posts" do
+    # TODO: Save post using Ecto
+    conn
+    |> put_resp_header("Location", "/posts/1")
+    |> send_resp(302, "")
   end
 
 
